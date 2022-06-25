@@ -4,13 +4,27 @@
  */
 exports.up = async function(knex) {
     await knex.raw('CREATE EXTENSION IF NOT EXISTS "UUID-OSSP"')
-
+    
+    //define the debate table.
     return knex.schema
         .createTable('debatable',function(table){
-            table.uuid('id').primary().notNullable().defaultTo(knex.raw('uuid_generate_v1()'));
-            table.string('title').notNullable().unique();
+            //debate id.
+            table.uuid('id')
+                .primary()
+                .notNullable()
+                .defaultTo(knex.raw('uuid_generate_v1()'));
+           
+            //debate summary.
+            table.string('title')
+                .notNullable()
+                .unique();
+            
+            //debate description.
             table.string('description');
-            table.timestamp('created_at').defaultTo(knex.fn.now());
+            
+            //debate creation time.
+            table.timestamp('created_at')
+                .defaultTo(knex.fn.now());
   })
 };
 

@@ -9,7 +9,9 @@ const Router = require('express').Router();
 /**
  * Add Debate Router.
  */
-Router.post('/', debatesService.addDebate);//send the posted req to the service in addDebate.
+Router.post('/', function(req, res){
+    debatesService.addDebate
+});//send the posted req to the service in addDebate.
 
 //to use Router in other file.
 module.exports=Router;
