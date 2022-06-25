@@ -7,7 +7,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use('/debates', require('./routers/debatesRoutes'));
-app.use('/debates/endorsements',require('./routers/endorsementsRoutes'));
+app.use('/debates/debate/',require('./routers/endorsementsRoutes'));
 
 //listen on the port
 app.listen(3001, ()=>{

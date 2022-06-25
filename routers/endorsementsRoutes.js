@@ -9,9 +9,7 @@
  /**
   * Add Endorsement Router.
   */
- Router.post('/', function(req, res){
-    endorsementsService.addEndorsement
-});//send the posted req to the service in addDebate.
+ Router.post('/:debateId/endorsements', endorsementsService.addEndorsement);//send the posted req to the service in addDebate.
  
  //to use Router in other file.
  module.exports=Router;

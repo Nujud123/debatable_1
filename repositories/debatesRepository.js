@@ -1,18 +1,32 @@
 /**
- * debatesRepository.js responsible for managing in database.
+ * debatesRepository.js responsible for managing debates in database.
  * Nujud Almaleki, 2022
  */
 
 const knex = require("../knexHelper");
 
-const addDebate = async function(debatData){
+const addDebate = async function(debateData){
     return knex
-        .insert(debatableData)
+        .insert(debateData)
         .into('debatable')
         .returning('*');
 };
 
-//to use addDebate in other file.
+const updateDebate = async function(debateId, updateData){
+    return knex('debatable')
+        .where({id: debateId})
+        .update(updateData)
+        .returning('*');
+};
+
+const markDebateAsDeleted = async function(debateId){
+    return knex('debatable')
+       .where({id: debateId})
+       .update({isDeleted: true});
+};
+
 module.exports ={
-    addDebate
+    addDebate,
+    updateDebate,
+    markDebateAsDeleted
 };

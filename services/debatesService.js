@@ -3,14 +3,15 @@
  * Nujud Almaleki, 2022
  */
 
-const debatesRpo = require('../repositories/debatesRepository');
+const debatesRepo = require('../repositories/debatesRepository');
 
 const addDebate = async function(req,res){ 
-    let data = req.body;//get the data from the body.
+    //get the data from the body.
+    let data = req.body;
     
     try{
         //try to add the debate to the database.
-        const insertedDebate = await debatesRpo.addDebate(data);
+        const insertedDebate = await debatesRepo.addDebate(data);
         //send the response.
         await res.status(200).send(insertedDebate);
     }
@@ -18,9 +19,43 @@ const addDebate = async function(req,res){
         //error happened at databese level.
         await res.status(400).send(err);
     }
+};
 
-    //to use addDebate in other file.
-    module.exports={
-        addDebate
-    };
+const updateDebate = async function(req, res){
+    //get the debate ID from the request parameters.
+    const {debateId} = req.params;
+
+    //get the data.
+    const data = req.body;
+   
+    try{
+        //try to update the debate to the database.
+        const debate = await debatesRepo.updateDebate(debateId, data);
+        //send the response.
+        await res.status(200).send(debate);
+    }
+    catch(err){
+        //error happened at databese level.
+        await res.status(400).send(err);      
+    }
+};
+
+const deleteDebate = async function(req, res){
+    //get the debate ID from the request parameters.
+    const {debateId} = req.params;
+    console.log(debateId)
+    try{
+        await debatesRepo.markDebateAsDeleted(debateId);
+        await res.status(204).end();
+    }
+    catch(err){
+        await res.status(400).send(err);
+    }
+};
+
+
+module.exports={
+    addDebate,
+    updateDebate,
+    deleteDebate
 };

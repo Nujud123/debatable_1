@@ -5,14 +5,20 @@
 
 const knex = require("../knexHelper");
 
-const addEndorsement = async function(endorsementData){
+const addOrUpdateEndorsement = async function(debateId, userId, opinion){
     return knex
-        .insert(endorsementData)
+        .insert({
+            debate_id: debateId,
+            user_id: userId,
+            opinion
+        })
         .into('endorsements')
+        .onConflict(['debate_id','user_id'])
+        .merge()
         .returning('*');
 };
 
-//to use addEndorsement in other file.
+//to use addOrUpdateEndorsement in other file.
 module.exports ={
-    addEndorsement
+    addOrUpdateEndorsement
 };
